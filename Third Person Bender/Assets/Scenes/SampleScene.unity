@@ -668,6 +668,7 @@ GameObject:
   - component: {fileID: 623309343}
   - component: {fileID: 623309342}
   - component: {fileID: 623309344}
+  - component: {fileID: 623309345}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -734,6 +735,21 @@ MonoBehaviour:
     m_Bits: 64
   runMultiplier: 2
   damping: 0.9
+--- !u!114 &623309345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623309341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2f928bcea24104ba621e8d82c1f952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Origin: {fileID: 623309343}
+  sonarMaterial: {fileID: 2100000, guid: 1863c9bfabc0700429af1b46c6062adc, type: 2}
+  environmentObject: {fileID: 1555297309}
 --- !u!1 &702986426
 GameObject:
   m_ObjectHideFlags: 3
@@ -1105,7 +1121,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.02653269, y: -0.0000000065553802, z: -1.1692237e-10, w: 0.999648}
+  m_LocalRotation: {x: 0.02653269, y: -0.000000005465063, z: -8.798423e-11, w: 0.999648}
   m_LocalPosition: {x: 1, y: 2.5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1791,7 +1807,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042559084}
-  m_LocalRotation: {x: 0.0033380282, y: -5.7558575e-10, z: 1.921332e-12, w: 0.99999446}
+  m_LocalRotation: {x: 0.0033380259, y: 0.0000000015415548, z: -5.1457783e-12, w: 0.99999446}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
