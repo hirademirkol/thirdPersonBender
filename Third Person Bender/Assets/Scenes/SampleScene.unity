@@ -669,6 +669,7 @@ GameObject:
   - component: {fileID: 623309342}
   - component: {fileID: 623309344}
   - component: {fileID: 623309345}
+  - component: {fileID: 623309346}
   m_Layer: 0
   m_Name: Third Person Player
   m_TagString: Player
@@ -749,7 +750,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Origin: {fileID: 623309343}
   sonarMaterial: {fileID: 2100000, guid: 1863c9bfabc0700429af1b46c6062adc, type: 2}
+  rockSonarShader: {fileID: 4800000, guid: fea102e1b488b9444b5b164f61548af2, type: 3}
   environmentObject: {fileID: 1555297309}
+  rockMaterial: {fileID: 2100000, guid: abfc3fdbbd4c305479733287de1c6d33, type: 2}
+--- !u!114 &623309346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623309341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 263fa7cadb272994181703d7c2c575b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockObject: {fileID: 8381089116817251939, guid: cd0d23d45381c9a4eae20ec59f25003a, type: 3}
+  pushForce: 20
+  camera: {fileID: 963194228}
 --- !u!1 &702986426
 GameObject:
   m_ObjectHideFlags: 3
@@ -1121,7 +1139,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.02653269, y: -0.000000005465063, z: -8.798423e-11, w: 0.999648}
+  m_LocalRotation: {x: 0.02653269, y: -0.000000005465063, z: -8.798394e-11, w: 0.999648}
   m_LocalPosition: {x: 1, y: 2.5, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1687,6 +1705,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: -2021178655527167927, guid: 1970d9e9dae242f49bad858154332df9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -2021178655527167927, guid: 1970d9e9dae242f49bad858154332df9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.01
+      objectReference: {fileID: 0}
+    - target: {fileID: -2021178655527167927, guid: 1970d9e9dae242f49bad858154332df9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.15
+      objectReference: {fileID: 0}
     - target: {fileID: -674449036139524865, guid: 1970d9e9dae242f49bad858154332df9, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1807,7 +1837,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042559084}
-  m_LocalRotation: {x: 0.0033380259, y: 0.0000000015415548, z: -5.1457783e-12, w: 0.99999446}
+  m_LocalRotation: {x: 0.0033380263, y: -0.0000000010598605, z: 3.5378625e-12, w: 0.99999446}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

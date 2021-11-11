@@ -7,7 +7,10 @@ public class SonarController : MonoBehaviour
 {
     public Transform Origin;
     public Material sonarMaterial;
+    public Shader rockSonarShader;
     public GameObject environmentObject;
+
+    public Material rockMaterial;
     private MeshRenderer[] renderers;
     private Material[] savedMaterials;
 
@@ -36,6 +39,7 @@ public class SonarController : MonoBehaviour
         {
             foreach (MeshRenderer renderer in renderers) { renderer.material = sonarMaterial; }
             Camera.main.clearFlags = CameraClearFlags.SolidColor;
+            rockMaterial.shader = rockSonarShader;
         }
         else
         {
@@ -45,6 +49,7 @@ public class SonarController : MonoBehaviour
                 renderer.material = savedMaterials[i++];
             }
             Camera.main.clearFlags = CameraClearFlags.Skybox;
+            rockMaterial.shader = Shader.Find("Standard");
         }
         yield return null;
     }
