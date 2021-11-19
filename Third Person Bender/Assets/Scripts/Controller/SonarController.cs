@@ -2,54 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[ExecuteInEditMode]
 public class SonarController : MonoBehaviour
 {
+    public Camera MainCamera;
     public Transform Origin;
-    public Material sonarMaterial;
-    public Shader rockSonarShader;
-    public GameObject environmentObject;
+    public Material SonarMaterial;
+    public Shader RockSonarShader;
+    public GameObject EnvironmentObject;
+    public Material[] RockMaterials;
 
-    public Material rockMaterial;
-    private MeshRenderer[] renderers;
-    private Material[] savedMaterials;
-
-    private bool blinded;
+    private MeshRenderer[] _renderers;
+    private Material[] _savedMaterials;
+    private bool _blinded;
     
     void Start()
     {
-        blinded = false;
-        renderers = environmentObject.GetComponentsInChildren<MeshRenderer>();
-        savedMaterials = new Material[renderers.GetLength(0)];
-        int i=0;
-        foreach(MeshRenderer renderer in renderers){ savedMaterials[i++] = renderer.material;};
+        _blinded = false;
+        _renderers = EnvironmentObject.GetComponentsInChildren<MeshRenderer>();
+        _savedMaterials = new Material[_renderers.GetLength(0)];
+        int i = 0;
+        foreach(MeshRenderer renderer in _renderers){ _savedMaterials[i++] = renderer.material; };
     }
+
     void Update()
-    {   if(Input.GetButtonDown("Blind"))
+    {   
+        if(Input.GetButtonDown("Blind"))
         {
-            blinded = !blinded;
+            _blinded = !_blinded;
             StartCoroutine(ChangeMaterials());
         }
-        sonarMaterial.SetVector("_Origin",new Vector4(Origin.position.x, Origin.position.y, Origin.position.z));
+        SonarMaterial.SetVector("_Origin",new Vector4(Origin.position.x, Origin.position.y, Origin.position.z));
     }
 
     IEnumerator ChangeMaterials()
     {
-        if(blinded)
+        if(_blinded)
         {
-            foreach (MeshRenderer renderer in renderers) { renderer.material = sonarMaterial; }
-            Camera.main.clearFlags = CameraClearFlags.SolidColor;
-            rockMaterial.shader = rockSonarShader;
+            foreach (MeshRenderer renderer in _renderers) { renderer.material = SonarMaterial; }
+            MainCamera.clearFlags = CameraClearFlags.SolidColor;
+            foreach (Material mat in RockMaterials) { mat.shader = RockSonarShader; }
         }
         else
         {
             int i = 0;
-            foreach (MeshRenderer renderer in renderers)
-            { 
-                renderer.material = savedMaterials[i++];
-            }
-            Camera.main.clearFlags = CameraClearFlags.Skybox;
-            rockMaterial.shader = Shader.Find("Standard");
+            foreach (MeshRenderer renderer in _renderers){ renderer.material = _savedMaterials[i++]; }
+            MainCamera.clearFlags = CameraClearFlags.Skybox;
+            foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
         }
         yield return null;
     }

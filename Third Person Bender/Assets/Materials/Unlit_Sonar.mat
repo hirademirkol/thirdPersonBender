@@ -29,5 +29,5 @@ Material:
     - _Speed: 4
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Origin: {r: -0.27282545, g: 1.0799997, b: 0.8186949, a: 0}
+    - _Origin: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

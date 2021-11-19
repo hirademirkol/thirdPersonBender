@@ -1,15 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public CinemachineCameraOffset cameraOffset;
-    public float switchDuration = 1f;
-    private float startOffset;
+    public CinemachineCameraOffset CameraOffset;
+    public float SwitchDuration = 1f;
+
+    private float _startOffset;
+    
     void Start()
     {
-        startOffset = cameraOffset.m_Offset.x;
+        _startOffset = CameraOffset.m_Offset.x;
     }
     void Update()
     {
@@ -21,14 +22,14 @@ public class CameraController : MonoBehaviour
 
     IEnumerator LerpFunction()
     {
-        float time = 0;
-        startOffset = cameraOffset.m_Offset.x;
-        while (time < switchDuration)
+        var time = 0f;
+        _startOffset = CameraOffset.m_Offset.x;
+        while (time < SwitchDuration)
         {
-            cameraOffset.m_Offset.x = Mathf.Lerp(startOffset, -startOffset, time / switchDuration);
+            CameraOffset.m_Offset.x = Mathf.Lerp(_startOffset, -_startOffset, time / SwitchDuration);
             time += Time.deltaTime;
             yield return null;
         }
-        cameraOffset.m_Offset.x = -startOffset;
+        CameraOffset.m_Offset.x = -_startOffset;
     }
 }
