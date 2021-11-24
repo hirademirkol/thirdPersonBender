@@ -755,6 +755,7 @@ MonoBehaviour:
   RockMaterials:
   - {fileID: 2100000, guid: abfc3fdbbd4c305479733287de1c6d33, type: 2}
   - {fileID: 2100000, guid: 265990ff21004e447b9b0f0bb3d203a8, type: 2}
+  - {fileID: 2100000, guid: 72380ce4b33586c43970c4c2b8f0f22d, type: 2}
   SonarSpeed: 5
   MaxSonarDistance: 20
 --- !u!114 &623309346
