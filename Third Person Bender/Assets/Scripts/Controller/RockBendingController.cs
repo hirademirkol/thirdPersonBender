@@ -5,9 +5,11 @@ using UnityEngine;
 public class RockBendingController : MonoBehaviour
 {
     public GameObject RockObject;
+    public GameObject WallObject;
     public float PushForce = 50f;
     public Transform Camera;
-    public float RaiseTime = 0.25f;
+    public float RockRaiseTime = 0.25f;
+    public float WallRaiseTime = 0.5f;
 
     private GameObject _rock;
     private bool _rockDrawn = false;
@@ -16,14 +18,15 @@ public class RockBendingController : MonoBehaviour
     {
         if(Input.GetButtonDown("Fire2") && !_rockDrawn){ StartCoroutine(DrawRock()); }
         if(Input.GetButtonDown("Fire1") && _rockDrawn){ StartCoroutine(PushRock()); }
+        if(Input.GetButtonDown("Fire3")){ StartCoroutine(RaiseWall(WallRaiseTime)); }
     }
 
     IEnumerator DrawRock()
     {
-        _rock = GameObject.Instantiate(RockObject, transform);
+        _rock = Instantiate(RockObject, transform);
         _rock.transform.localPosition = new Vector3(2f, 0f, 0f);
         _rockDrawn = true;
-        StartCoroutine(RaiseRock(_rock, RaiseTime));
+        StartCoroutine(RaiseRock(_rock, RockRaiseTime));
         yield return null;
     }
 
@@ -52,5 +55,21 @@ public class RockBendingController : MonoBehaviour
         }
         if(_rockDrawn)
             rock.transform.localPosition = new Vector3(2f, 2f, 0f);
+    }
+
+    IEnumerator RaiseWall(float time)
+    {
+        var position = transform.position + 2f * transform.forward;
+        position.y = -6.15f;
+        var moveVector = new Vector3(0f, 6.15f/time, 0f);
+        var wall = Instantiate(WallObject, position, transform.rotation * WallObject.transform.rotation);
+        while (time > 0)
+        {
+            wall.transform.position += moveVector * Time.deltaTime;
+            time -= Time.deltaTime;
+            yield return null;
+        }
+        position.y = 0f;
+        wall.transform.position = position;
     }
 }
