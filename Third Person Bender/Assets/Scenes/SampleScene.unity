@@ -750,12 +750,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 963194227}
   Origin: {fileID: 623309343}
-  SonarMaterial: {fileID: 2100000, guid: 1863c9bfabc0700429af1b46c6062adc, type: 2}
-  RockSonarShader: {fileID: 4800000, guid: fea102e1b488b9444b5b164f61548af2, type: 3}
+  SonarShader: {fileID: 4800000, guid: 57df76598b114f446b0b19ad574b153c, type: 3}
   EnvironmentObject: {fileID: 1555297309}
   RockMaterials:
   - {fileID: 2100000, guid: abfc3fdbbd4c305479733287de1c6d33, type: 2}
   - {fileID: 2100000, guid: 265990ff21004e447b9b0f0bb3d203a8, type: 2}
+  SonarSpeed: 5
+  MaxSonarDistance: 20
 --- !u!114 &623309346
 MonoBehaviour:
   m_ObjectHideFlags: 0

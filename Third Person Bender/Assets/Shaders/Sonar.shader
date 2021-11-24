@@ -2,10 +2,11 @@ Shader "Unlit/Sonar"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _Origin ("Origin", Vector) = (0,0,0,0)
-        _Speed ("Speed", Range(0.0, 10.0)) = 5.0
-        _Phase ("Phase", Float) = 0.0
+        [MainColor] _MainColor ("Main Color", Color) = (1,1,1,1)
+        [Normal] _BumpMap ("Normal Map", 2D) = "bump" {}
+        _Threshold ("Threshold", Float) = 0.5
+        _Power ("Power", Int) = 1
+        _Phase ("Phase", Float) = 20
     }
     SubShader
     {
@@ -13,7 +14,7 @@ Shader "Unlit/Sonar"
         LOD 100
 
         ZWrite Off
-        Blend One OneMinusSrcAlpha
+        Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
@@ -26,15 +27,34 @@ Shader "Unlit/Sonar"
             struct appdata
             {
                 float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
+                float4 tangent : TANGENT;
             };
 
             struct v2f
             {
+                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float4 dist : FLOAT4;
+                half3 tspace0 : TEXCOORD1; // tangent.x, bitangent.x, normal.x
+                half3 tspace1 : TEXCOORD2; // tangent.y, bitangent.y, normal.y
+                half3 tspace2 : TEXCOORD3; // tangent.z, bitangent.z, normal.z
+                float3 worldPos : TEXCOORD4;
+                float3 cameraDir : FLOAT4;
+                float3 normal : NORMAL;
+                float3 distanceVector : FLOAT3;
             };
 
-            float4 _Color;
+            float4 _MainColor;
+
+            sampler2D _BumpMap;
+            float4 _BumpMap_ST;
+
+            //Variables for color calculation
+            float _Threshold;
+            int _Power;
+
+            //Variables for wave calculation
             float4 _Origin;
             float _Distance;
             float _Speed;
@@ -43,18 +63,62 @@ Shader "Unlit/Sonar"
             v2f vert (appdata v)
             {
                 v2f o;
+
+                //Coordinate mappings
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.dist = mul(unity_ObjectToWorld, v.vertex) - _Origin;
+                o.uv = TRANSFORM_TEX(v.uv, _BumpMap);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+                
+                //Normalized direction to camera
+                o.cameraDir = normalize(WorldSpaceViewDir(v.vertex));
+
+                //World Normal, Tangent and Bitangent Calculation
+                half3 wNormal = UnityObjectToWorldNormal(v.normal);
+                half3 wTangent = UnityObjectToWorldDir(v.tangent.xyz);
+                half tangentSign = v.tangent.w * unity_WorldTransformParams.w;
+                half3 wBitangent = cross(wNormal, wTangent) * tangentSign;
+
+                //Tangent space matrix and normal output
+                o.tspace0 = half3(wTangent.x, wBitangent.x, wNormal.x);
+                o.tspace1 = half3(wTangent.y, wBitangent.y, wNormal.y);
+                o.tspace2 = half3(wTangent.z, wBitangent.z, wNormal.z);
+                o.normal = wNormal;
+
+                //Vector from the wave origin
+                o.distanceVector = mul(unity_ObjectToWorld, v.vertex) - _Origin;
+
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
-            {   
-                float4 color;
-                float distance = length(i.dist);
-                float col = sin(-_Time.y * _Speed + distance * _Phase);
-                color = pow(col,3); 
-                return color;
+            {
+                fixed4 color = 1;
+                //Initialize texture tangent and world normals
+                half3 tNormal = UnpackNormal(tex2D(_BumpMap, i.uv));
+                half3 worldNormal;
+
+                //Calculate world normals from texture tangent normals
+                worldNormal.x = dot(i.tspace0, tNormal);
+                worldNormal.y = dot(i.tspace1, tNormal);                
+                worldNormal.z = dot(i.tspace2, tNormal);
+
+                // Color calculated as multiplication of normal and camera direction
+                color.rgb = pow(dot(worldNormal, i.cameraDir), _Power) > _Threshold;
+
+                //Distance calculated as horizontal+vertical distance
+                float dist = length(i.distanceVector.xz) + i.distanceVector.y;
+                
+                //Mask for waves only on sonarfront
+                float mask = abs(dist-_Distance)<0.5;
+                float wave = (sin(-_Time.y * _Speed + dist*_Phase)+1)*0.5; //Mapped to [0,1]
+                
+                //Wave added to color
+                color.rgb += wave * mask;
+                
+                //Alpha is a mask of circle with radius _Distance with 1 falloff at egde
+                color.a = 0.5-0.5*clamp(dist-_Distance+0.5,0,1);
+
+                return color * _MainColor;
             }
             ENDCG
         }

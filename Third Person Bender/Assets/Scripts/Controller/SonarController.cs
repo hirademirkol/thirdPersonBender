@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class SonarController : MonoBehaviour
 {
     public Camera MainCamera;
     public Transform Origin;
-    public Material SonarMaterial;
-    public Shader RockSonarShader;
+    public Shader SonarShader;
     public GameObject EnvironmentObject;
     public Material[] RockMaterials;
+    public float SonarSpeed = 3f;
+    public float MaxSonarDistance = 20f;
 
     private MeshRenderer[] _renderers;
-    private Material[] _savedMaterials;
     private bool _blinded;
-    
+    private float _distance = 0;
+
     void Start()
     {
         _blinded = false;
         _renderers = EnvironmentObject.GetComponentsInChildren<MeshRenderer>();
-        _savedMaterials = new Material[_renderers.GetLength(0)];
-        int i = 0;
-        foreach(MeshRenderer renderer in _renderers){ _savedMaterials[i++] = renderer.material; };
+        Shader.SetGlobalFloat("_Speed",SonarSpeed);
     }
 
     void Update()
@@ -31,23 +31,34 @@ public class SonarController : MonoBehaviour
             _blinded = !_blinded;
             StartCoroutine(ChangeMaterials());
         }
-        SonarMaterial.SetVector("_Origin",new Vector4(Origin.position.x, Origin.position.y, Origin.position.z));
+        _distance += SonarSpeed * Time.deltaTime;
+        _distance %= MaxSonarDistance;
+        Shader.SetGlobalFloat("_Distance",_distance);
+        Shader.SetGlobalVector("_Origin", Origin.position);
+    }
+
+
+    void OnApplicationQuit()
+    {
+        if(_blinded)
+        {
+            foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
+        }
     }
 
     IEnumerator ChangeMaterials()
     {
         if(_blinded)
         {
-            foreach (MeshRenderer renderer in _renderers) { renderer.material = SonarMaterial; }
+            foreach (MeshRenderer renderer in _renderers) { renderer.material.shader = SonarShader; }
+            foreach (Material mat in RockMaterials) { mat.shader = SonarShader; }
             MainCamera.clearFlags = CameraClearFlags.SolidColor;
-            foreach (Material mat in RockMaterials) { mat.shader = RockSonarShader; }
         }
         else
         {
-            int i = 0;
-            foreach (MeshRenderer renderer in _renderers){ renderer.material = _savedMaterials[i++]; }
-            MainCamera.clearFlags = CameraClearFlags.Skybox;
+            foreach (MeshRenderer renderer in _renderers){ renderer.material.shader = Shader.Find("Standard"); }
             foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
+            MainCamera.clearFlags = CameraClearFlags.Skybox;
         }
         yield return null;
     }
