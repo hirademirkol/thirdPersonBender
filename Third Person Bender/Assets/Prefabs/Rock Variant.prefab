@@ -99,3 +99,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BrokenObject: {fileID: 8790194476686609797, guid: 26d792ab861a0d041ab598579bf726ea, type: 3}
+  Damage: 20
+  CharacterTag: Character

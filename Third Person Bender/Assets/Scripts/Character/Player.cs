@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Player : Character
+{
+    public SonarController SonarController;
+    public Transform Camera;
+    public float TurnSmoothTime = 0.1f;
+
+    private float _turnSmoothVelocity;
+
+
+    void Update()
+    {
+        if (IsAlive)
+        {
+            //Movement Controller Input
+            CalculateMovement();
+            if (Input.GetButtonDown("Jump"))
+                MovementController.Jump();
+
+            //Sonar Controller Input
+            if (Input.GetButtonDown("Blind"))
+                SonarController.Blind();
+
+            //Bending Controller Input
+            if (Input.GetButtonDown("Fire1"))
+                RockBendingController.PushRock();
+            if (Input.GetButtonDown("Fire2"))
+                RockBendingController.DrawRock();
+            if (Input.GetButtonDown("Fire3"))
+                RockBendingController.RaiseWall();
+        }
+    }
+
+    void CalculateMovement()
+    {
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+            var direction = new Vector3(horizontal, 0f, vertical).normalized;
+            
+            if(direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, TurnSmoothTime);
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                MovementController.Move(moveDir, angle, Input.GetButton("Run"));
+            }
+    }
+
+    override public void Die()
+    {
+        IsAlive = false;
+        transform.Rotate(Vector3.left, 90f);
+        Debug.Log("You dead.");
+    }
+}
