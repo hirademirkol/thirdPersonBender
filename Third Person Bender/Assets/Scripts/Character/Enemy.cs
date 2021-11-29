@@ -20,7 +20,7 @@ public class Enemy : Character
             if (FOV.CanSeePlayer)
             {
                 CalculateMovement();
-                if (FireAtPlayer())
+                if (ReadyToFireAtPlayer())
                 {
                     if (_timeAfterFire > FireCooldown)
                         StartCoroutine(Fire());
@@ -44,7 +44,7 @@ public class Enemy : Character
         }
     }
 
-    bool FireAtPlayer(){
+    bool ReadyToFireAtPlayer(){
         var distance = Vector3.Distance(transform.position, FOV.Player.position);
         return (distance < FireTriggerDistance) && FOV.AimingAtPlayer();
 
@@ -59,14 +59,15 @@ public class Enemy : Character
 
     IEnumerator Fire()
     {
-        var drawTime = 1f;
+        var drawTime = RockBendingController.RockRaiseTime;
         RockBendingController.DrawRock();
         while(drawTime > 0f)
         {
             drawTime -= Time.deltaTime;
             yield return null;
         }
-        RockBendingController.PushRock();
+        Vector3 fireDirection = transform.InverseTransformPoint(FOV.Player.position) - RockBendingController.rockOffsetPosition;
+        RockBendingController.PushRock(fireDirection);
         _timeAfterFire = 0f;
     }
 

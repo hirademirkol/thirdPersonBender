@@ -10,6 +10,7 @@ public class RockBendingController : MonoBehaviour
     public Transform Camera;
     public float RockRaiseTime = 0.25f;
     public float WallRaiseTime = 0.5f;
+    public Vector3 rockOffsetPosition = new Vector3 (2f, 2f, 0f);
 
     private GameObject _rock;
     private bool _rockDrawn = false;
@@ -20,10 +21,10 @@ public class RockBendingController : MonoBehaviour
             StartCoroutine(DrawRockRoutine());
     }
 
-    public void PushRock()
+    public void PushRock(Vector3 aimVector)
     {
         if(_rockDrawn)
-            StartCoroutine(PushRockRoutine());
+            StartCoroutine(PushRockRoutine(aimVector));
     }
 
     public void RaiseWall()
@@ -34,20 +35,20 @@ public class RockBendingController : MonoBehaviour
     IEnumerator DrawRockRoutine()
     {
         _rock = Instantiate(RockObject, transform);
-        _rock.transform.localPosition = new Vector3(2f, 0f, 0f);
+        _rock.transform.localPosition = new Vector3(rockOffsetPosition.x, 0f, rockOffsetPosition.z);
         _rockDrawn = true;
         StartCoroutine(RaiseRockRoutine(_rock, RockRaiseTime));
         yield return null;
     }
 
-    IEnumerator PushRockRoutine()
+    IEnumerator PushRockRoutine(Vector3 aimVector)
     {
         var rigidbody = _rock.GetComponent<Rigidbody>();
         rigidbody.GetComponent<Collider>().enabled = true;
         rigidbody.isKinematic = false;
         _rock.transform.SetParent(null);
-        Vector3 force = Quaternion.Euler(Camera.eulerAngles.x, 0f, 0f) * new Vector3(0f, PushVelocity , 0f);
-        rigidbody.AddRelativeForce(force, ForceMode.VelocityChange);
+        Vector3 force = aimVector.normalized*PushVelocity;
+        rigidbody.AddRelativeForce(Quaternion.Euler(-90f, 0f, 0f)*force, ForceMode.VelocityChange);
         rigidbody.useGravity = true;
         _rock.GetComponent<Rock>().Activate();
         _rockDrawn = false;
@@ -56,7 +57,7 @@ public class RockBendingController : MonoBehaviour
 
     IEnumerator RaiseRockRoutine(GameObject rock, float time)
     {
-        var moveVector = new Vector3(0f, 2f/time, 0f);
+        var moveVector = new Vector3(0f, rockOffsetPosition.y/time, 0f);
         while (time > 0 && _rockDrawn)
         {
             rock.transform.localPosition += moveVector * Time.deltaTime;
@@ -64,7 +65,7 @@ public class RockBendingController : MonoBehaviour
             yield return null;
         }
         if(_rockDrawn)
-            rock.transform.localPosition = new Vector3(2f, 2f, 0f);
+            rock.transform.localPosition = rockOffsetPosition;
     }
 
     IEnumerator RaiseWallRoutine(float time)

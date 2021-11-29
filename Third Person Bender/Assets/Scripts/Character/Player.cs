@@ -6,11 +6,16 @@ public class Player : Character
 {
     public SonarController SonarController;
     public Transform Camera;
+    public float FiringDistance = 25f;
     public float TurnSmoothTime = 0.1f;
 
     private float _turnSmoothVelocity;
 
-
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+    
     void Update()
     {
         if (IsAlive)
@@ -26,7 +31,10 @@ public class Player : Character
 
             //Bending Controller Input
             if (Input.GetButtonDown("Fire1"))
-                RockBendingController.PushRock();
+            {
+                //MovementController.RotateWithAngle(Camera.eulerAngles.y);
+                RockBendingController.PushRock(Quaternion.Euler(Camera.eulerAngles.x, -Mathf.Rad2Deg * Mathf.Atan2(1f, FiringDistance) , 0f) * Vector3.forward);
+            }
             if (Input.GetButtonDown("Fire2"))
                 RockBendingController.DrawRock();
             if (Input.GetButtonDown("Fire3"))

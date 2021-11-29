@@ -43,7 +43,7 @@ public class MovementController : MonoBehaviour
 
     public void Move(Vector3 moveDir, float angle, bool run)
     {
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        RotateWithAngle(angle);
 
         if (_isGrounded)
         {
@@ -57,6 +57,11 @@ public class MovementController : MonoBehaviour
         Controller.Move(moveDir.normalized * _currentSpeed * Time.deltaTime);
     }
 
+    public void RotateWithAngle(float angle)
+    {
+        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+    }
+    
     public void Jump()
     {
         if(_jumpNumber < 2)
