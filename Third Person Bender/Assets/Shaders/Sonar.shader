@@ -106,7 +106,7 @@ Shader "Unlit/Sonar"
                 color.rgb = pow(dot(worldNormal, i.cameraDir), _Power) > _Threshold;
 
                 //Distance calculated as horizontal+vertical distance
-                float dist = length(i.distanceVector.xz) + i.distanceVector.y;
+                float dist = length(i.distanceVector.xz) + abs(i.distanceVector.y);
                 
                 //Mask for waves only on sonarfront
                 float mask = abs(dist-_Distance)<0.5;

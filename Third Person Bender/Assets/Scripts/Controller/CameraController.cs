@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetButtonDown("Switch Camera"))
+        if(Input.GetButtonDown("SwitchCamera"))
         {
             StartCoroutine(LerpFunction());
         }

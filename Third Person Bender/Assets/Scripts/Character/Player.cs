@@ -5,21 +5,33 @@ using UnityEngine;
 public class Player : Character
 {
     public SonarController SonarController;
+    public TerraformingController TerraformingController;
     public Transform Camera;
     public float FiringDistance = 25f;
     public float TurnSmoothTime = 0.1f;
 
     private float _turnSmoothVelocity;
 
+    enum Mode {Fire, Terraform}
+
+    private Mode _mode;
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        _mode = Mode.Fire;
     }
     
     void Update()
     {
         if (IsAlive)
         {
+            if(Input.GetButtonDown("SwitchMode"))
+            {
+                _mode = 1 - _mode;
+                Debug.Log(_mode);
+            }
+
             //Movement Controller Input
             CalculateMovement();
             if (Input.GetButtonDown("Jump"))
@@ -30,15 +42,35 @@ public class Player : Character
                 SonarController.Blind();
 
             //Bending Controller Input
-            if (Input.GetButtonDown("Fire1"))
+
+            switch(_mode)
             {
-                //MovementController.RotateWithAngle(Camera.eulerAngles.y);
-                RockBendingController.PushRock(Quaternion.Euler(Camera.eulerAngles.x, -Mathf.Rad2Deg * Mathf.Atan2(1f, FiringDistance) , 0f) * Vector3.forward);
+                case Mode.Fire:
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        //MovementController.RotateWithAngle(Camera.eulerAngles.y);
+                        RockBendingController.PushRock(Quaternion.Euler(Camera.eulerAngles.x, -Mathf.Rad2Deg * Mathf.Atan2(1f, FiringDistance), 0f) * Vector3.forward);
+                    }
+                    if (Input.GetButtonDown("Fire2"))
+                    {
+                        if(RockBendingController.DrawRock())
+                            TerraformingController.PullOffRock(transform.TransformPoint(RockBendingController.rockOffsetPosition));
+
+                    }
+                    if (Input.GetButtonDown("Fire3"))
+                        //RockBendingController.RaiseWall();
+                        TerraformingController.RaiseWall(transform.position + 2f * transform.forward, transform.forward);
+                    return;
+                
+                case Mode.Terraform:
+                    if (Input.GetButtonDown("Fire1"))
+                        TerraformingController.ColumnAtMiddle(20, 11);
+                    return;
+                
+                default:
+                    return;
             }
-            if (Input.GetButtonDown("Fire2"))
-                RockBendingController.DrawRock();
-            if (Input.GetButtonDown("Fire3"))
-                RockBendingController.RaiseWall();
+            
         }
     }
 

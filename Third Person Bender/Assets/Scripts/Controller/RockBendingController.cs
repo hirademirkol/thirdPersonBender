@@ -15,10 +15,14 @@ public class RockBendingController : MonoBehaviour
     private GameObject _rock;
     private bool _rockDrawn = false;
 
-    public void DrawRock()
+    public bool DrawRock()
     {
         if(!_rockDrawn)
+        {
             StartCoroutine(DrawRockRoutine());
+            return true;
+        }
+        return false;
     }
 
     public void PushRock(Vector3 aimVector)
@@ -35,7 +39,7 @@ public class RockBendingController : MonoBehaviour
     IEnumerator DrawRockRoutine()
     {
         _rock = Instantiate(RockObject, transform);
-        _rock.transform.localPosition = new Vector3(rockOffsetPosition.x, 0f, rockOffsetPosition.z);
+        _rock.transform.localPosition = new Vector3(rockOffsetPosition.x, -1f, rockOffsetPosition.z);
         _rockDrawn = true;
         StartCoroutine(RaiseRockRoutine(_rock, RockRaiseTime));
         yield return null;
@@ -57,7 +61,7 @@ public class RockBendingController : MonoBehaviour
 
     IEnumerator RaiseRockRoutine(GameObject rock, float time)
     {
-        var moveVector = new Vector3(0f, rockOffsetPosition.y/time, 0f);
+        var moveVector = new Vector3(0f, (rockOffsetPosition.y + 1f)/time, 0f);
         while (time > 0 && _rockDrawn)
         {
             rock.transform.localPosition += moveVector * Time.deltaTime;
