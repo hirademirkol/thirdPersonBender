@@ -8,9 +8,7 @@ public class Player : Character
     public Transform Camera;
     public float FiringDistance = 25f;
     public float TurnSmoothTime = 0.1f;
-
     private float _turnSmoothVelocity;
-
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -47,14 +45,19 @@ public class Player : Character
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
             var direction = new Vector3(horizontal, 0f, vertical).normalized;
-            
-            if(direction.magnitude >= 0.1f)
-            {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.eulerAngles.y;
-                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, TurnSmoothTime);
-                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-                MovementController.Move(moveDir, angle, Input.GetButton("Run"));
-            }
+
+        if (direction.magnitude >= 0.1f)
+        {
+            var run = Input.GetButton("Run");
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, TurnSmoothTime);
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            MovementController.Move(moveDir, angle, run);  
+        }
+        else
+        {
+            MovementController.SlowDown();
+        }
     }
 
     override public void Die()

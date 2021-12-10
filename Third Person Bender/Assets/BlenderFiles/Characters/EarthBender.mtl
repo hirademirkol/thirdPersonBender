@@ -1,0 +1,94 @@
+# Blender MTL File: 'EarthBender.blend'
+# Material Count: 8
+
+newmtl EarthBender.Braid01
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\hair\\braid01\\braid01_diffuse.png
+map_d C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\hair\\braid01\\braid01_diffuse.png
+
+newmtl EarthBender.Eyelashes01
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\eyelashes\\eyelashes01\\eyelashes01.png
+map_d C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\eyelashes\\eyelashes01\\eyelashes01.png
+
+newmtl EarthBender.HighPolyEyes
+Ns 900.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\eyes\\materials\\brown_eye.png
+map_d C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\eyes\\materials\\brown_eye.png
+
+newmtl EarthBender.Teeth_Base
+Ns 575.999996
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\teeth\\materials\\teeth.png
+map_d C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\teeth\\materials\\teeth.png
+
+newmtl EarthBender.body
+Ns 323.999994
+Ka 1.000000 1.000000 1.000000
+Kd 0.747247 0.568814 0.449254
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl EarthBender.eyebrow002
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\eyebrows\\eyebrow002\\eyebrow002.png
+map_d C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\eyebrows\\eyebrow002\\eyebrow002.png
+
+newmtl EarthBender.tongue01
+Ns 34.609688
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\tongue\\tongue01\\tongue01_diffuse.png
+map_d C:\\Users\\ydemi\\AppData\\Local\\makehuman-community\\makehuman\\data\\tongue\\tongue01\\tongue01_diffuse.png
+
+newmtl Fabric
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.143636 0.143636 0.143636
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
