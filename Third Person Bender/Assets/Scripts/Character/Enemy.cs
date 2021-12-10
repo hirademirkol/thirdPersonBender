@@ -26,7 +26,15 @@ public class Enemy : Character
                         StartCoroutine(Fire());
                 }
             }
+            else
+            {
+                MovementController.SlowDown();
+            }
             _timeAfterFire += Time.deltaTime;
+        }
+        else
+        {
+            MovementController.Stop();
         }
     }
 
@@ -41,6 +49,10 @@ public class Enemy : Character
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, TurnSmoothTime);
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             MovementController.Move(moveDir, angle, run);
+        }
+        else
+        {
+            MovementController.SlowDown();
         }
     }
 

@@ -89,9 +89,10 @@ public class MovementController : MonoBehaviour
             Animator.SetFloat("MotionZ", 0, AnimationBlendRate, Time.deltaTime);
     }
 
-    public void RotateWithAngle(float angle)
+    public void Stop()
     {
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        Animator.SetFloat("MotionX", 0);
+        Animator.SetFloat("MotionZ", 0);
     }
     
     public void Jump()
@@ -102,5 +103,10 @@ public class MovementController : MonoBehaviour
             _jumpNumber++;
             Animator.SetTrigger("Jump");
         }
+    }
+
+    private void RotateWithAngle(float angle)
+    {
+        transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 }

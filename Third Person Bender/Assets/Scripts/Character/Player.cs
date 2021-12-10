@@ -38,6 +38,10 @@ public class Player : Character
             if (Input.GetButtonDown("Fire3"))
                 RockBendingController.RaiseWall();
         }
+        else
+        {
+            MovementController.Stop();
+        }
     }
 
     void CalculateMovement()
