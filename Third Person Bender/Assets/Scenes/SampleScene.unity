@@ -458,7 +458,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154101802}
-  m_LocalRotation: {x: 0.0016806765, y: 0.000000017206087, z: -2.8917911e-11, w: 0.9999986}
+  m_LocalRotation: {x: 0.0016806758, y: 0.000000017230587, z: -2.8959076e-11, w: 0.9999986}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -873,7 +873,9 @@ MonoBehaviour:
   MainCamera: {fileID: 963194227}
   Origin: {fileID: 623309343}
   SonarShader: {fileID: 4800000, guid: 57df76598b114f446b0b19ad574b153c, type: 3}
-  SonarTerrainShader: {fileID: 4800000, guid: 99127861e568ffa4799c4253b669c9f3, type: 3}
+  SonarTerrainShader: {fileID: 4800000, guid: 94675296ee2e8824f8bf6b4500939fc9, type: 3}
+  StandardShader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  StandardTerrainShader: {fileID: 4800000, guid: ed22c91f695a3c84f83ae6a90a0355e6, type: 3}
   TerrainMaterial: {fileID: 2100000, guid: 82176ec79b325d04fae04d59ae31e358, type: 2}
   RockMaterials:
   - {fileID: 2100000, guid: abfc3fdbbd4c305479733287de1c6d33, type: 2}
@@ -1315,7 +1317,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 950853696}
-  m_LocalRotation: {x: 0.024976611, y: 0.000000017194724, z: -4.2960002e-10, w: 0.999688}
+  m_LocalRotation: {x: 0.024976611, y: 0.000000017201012, z: -4.2975712e-10, w: 0.999688}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1401,7 +1403,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.0016806757, y: 0.000000017214179, z: -2.8904365e-11, w: 0.9999986}
+  m_LocalRotation: {x: 0.0016806757, y: 0.000000017232608, z: -2.895567e-11, w: 0.9999986}
   m_LocalPosition: {x: 1, y: 2.5, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2516,7 +2518,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042559084}
-  m_LocalRotation: {x: 0.024976611, y: 0.000000017201002, z: -4.2975687e-10, w: 0.999688}
+  m_LocalRotation: {x: 0.024976611, y: 0.000000017201012, z: -4.2975712e-10, w: 0.999688}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

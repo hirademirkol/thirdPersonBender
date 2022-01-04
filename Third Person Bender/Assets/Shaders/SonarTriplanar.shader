@@ -1,4 +1,4 @@
-Shader "Unlit/Sonar"
+Shader "Unlit/SonarTriplanar"
 {
     Properties
     {
@@ -41,6 +41,7 @@ Shader "Unlit/Sonar"
                 half3 tspace2 : TEXCOORD3; // tangent.z, bitangent.z, normal.z
                 float3 worldPos : TEXCOORD4;
                 float3 cameraDir : FLOAT4;
+                float3 worldNormal : NORMAL;
                 float3 distanceVector : FLOAT3;
             };
 
@@ -81,6 +82,7 @@ Shader "Unlit/Sonar"
                 o.tspace0 = half3(wTangent.x, wBitangent.x, wNormal.x);
                 o.tspace1 = half3(wTangent.y, wBitangent.y, wNormal.y);
                 o.tspace2 = half3(wTangent.z, wBitangent.z, wNormal.z);
+                o.worldNormal = wNormal;
 
                 //Vector from the wave origin
                 o.distanceVector = mul(unity_ObjectToWorld, v.vertex) - _Origin;
@@ -91,8 +93,19 @@ Shader "Unlit/Sonar"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 color = 1;
+                //Normal triplanar for x, y, z sides
+                float3 blendNormal = saturate(pow(i.worldNormal * 1.4,4));
+                
+                half4 xn = tex2D(_BumpMap, i.worldPos.zy * i.uv);
+                half4 yn = tex2D(_BumpMap, i.worldPos.zx * i.uv);
+                half4 zn = tex2D(_BumpMap, i.worldPos.xy * i.uv);
+                
+                half4 normal = zn;
+                normal = lerp(normal, xn, blendNormal.x);
+                normal = lerp(normal, yn, blendNormal.y);
+
                 //Initialize texture tangent and world normals
-                half3 tNormal = UnpackNormal(tex2D(_BumpMap, i.uv));
+                half3 tNormal = UnpackNormal(normal);
                 half3 worldNormal;
 
                 //Calculate world normals from texture tangent normals

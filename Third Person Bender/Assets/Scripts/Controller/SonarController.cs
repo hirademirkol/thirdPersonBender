@@ -10,6 +10,8 @@ public class SonarController : MonoBehaviour
     public Shader SonarShader;
     public Shader SonarTerrainShader;
     //public GameObject EnvironmentObject;
+    public Shader StandardShader;
+    public Shader StandardTerrainShader;
     public Material TerrainMaterial;
     public Material[] RockMaterials;
     public Material[] CharacterMaterials;
@@ -31,9 +33,9 @@ public class SonarController : MonoBehaviour
     {
         if(_blinded)
         {
-            TerrainMaterial.shader = Shader.Find("Nature/Terrain/Standard");
-            foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
-            foreach (Material mat in CharacterMaterials) { mat.shader = Shader.Find("Standard"); }
+            TerrainMaterial.shader = StandardTerrainShader;
+            foreach (Material mat in RockMaterials) { mat.shader = StandardShader; }
+            foreach (Material mat in CharacterMaterials) { mat.shader = StandardShader; }
         }
     }
 
@@ -58,9 +60,9 @@ public class SonarController : MonoBehaviour
         else
         {
             //foreach (MeshRenderer renderer in _renderers){ renderer.material.shader = Shader.Find("Standard"); }
-            TerrainMaterial.shader = Shader.Find("Nature/Terrain/Standard");
-            foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
-            foreach (Material mat in CharacterMaterials) { mat.shader = Shader.Find("Standard"); }
+            TerrainMaterial.shader = StandardTerrainShader;
+            foreach (Material mat in RockMaterials) { mat.shader = StandardShader; }
+            foreach (Material mat in CharacterMaterials) { mat.shader = StandardShader; }
             MainCamera.clearFlags = CameraClearFlags.Skybox;
         }
         yield return null;
