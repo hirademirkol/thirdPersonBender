@@ -4,6 +4,7 @@ Shader "Custom/StandardTriplanar"
     {
         _MainTex ("Diffuse", 2D) = "white" {}
         _BumpMap ("Normal Map", 2D) = "bump" {}
+        _ST ("Mapping", Vector) = (.1,.1,0,0)
         _BumpScale ("Normal Scale", Float) = 1
         _Mask ("Mask Map", 2D) = "green" {}
     }
@@ -22,13 +23,11 @@ Shader "Custom/StandardTriplanar"
         sampler2D _MainTex;
         sampler2D _BumpMap;
         sampler2D _Mask;
+        float4 _ST;
         float _BumpScale;
 
         struct Input
         {
-            float2 uv_MainTex;
-            float2 uv_BumpMap;            
-            float2 uv_Mask;
             float3 worldPos;
             float3 worldNormal;
             INTERNAL_DATA
@@ -48,27 +47,27 @@ Shader "Custom/StandardTriplanar"
             float3 blendNormal = saturate(pow(WorldNormalVector (IN, o.Normal) * 1.4,4));
 
             // normal triplanar for x, y, z sides
-            half4 xn = tex2D(_BumpMap, IN.worldPos.zy * IN.uv_BumpMap);
-            half4 yn = tex2D(_BumpMap, IN.worldPos.zx * IN.uv_BumpMap);
-            half4 zn = tex2D(_BumpMap, IN.worldPos.xy * IN.uv_BumpMap);
+            half4 xn = tex2D(_BumpMap, IN.worldPos.zy * _ST.xy + _ST.zw);
+            half4 yn = tex2D(_BumpMap, IN.worldPos.zx * _ST.xy + _ST.zw);
+            half4 zn = tex2D(_BumpMap, IN.worldPos.xy * _ST.xy + _ST.zw);
 
             half4 normal = zn;
             normal = lerp(normal, xn, blendNormal.x);
             normal = lerp(normal, yn, blendNormal.y);
 
             // diffuse triplanar for x, y, z sides
-            float3 xc = tex2D(_MainTex, IN.worldPos.zy * IN.uv_MainTex);
-            float3 yc = tex2D(_MainTex, IN.worldPos.zx * IN.uv_MainTex);
-            float3 zc = tex2D(_MainTex, IN.worldPos.xy * IN.uv_MainTex);
+            float3 xc = tex2D(_MainTex, IN.worldPos.zy * _ST.xy + _ST.zw);
+            float3 yc = tex2D(_MainTex, IN.worldPos.zx * _ST.xy + _ST.zw);
+            float3 zc = tex2D(_MainTex, IN.worldPos.xy * _ST.xy + _ST.zw);
 
             float3 color = zc;
             color = lerp(color, xc, blendNormal.x);
             color = lerp(color, yc, blendNormal.y);
 
             // mask triplanar for x, y, z sides
-            float4 xm = tex2D(_Mask, IN.worldPos.zy * IN.uv_Mask);
-            float4 ym = tex2D(_Mask, IN.worldPos.zx * IN.uv_Mask);
-            float4 zm = tex2D(_Mask, IN.worldPos.xy * IN.uv_Mask);
+            float4 xm = tex2D(_Mask, IN.worldPos.zy * _ST.xy + _ST.zw);
+            float4 ym = tex2D(_Mask, IN.worldPos.zx * _ST.xy + _ST.zw);
+            float4 zm = tex2D(_Mask, IN.worldPos.xy * _ST.xy + _ST.zw);
 
             float4 mask = zm;
             mask = lerp(mask, xm, blendNormal.x);

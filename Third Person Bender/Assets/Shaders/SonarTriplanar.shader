@@ -4,6 +4,7 @@ Shader "Unlit/SonarTriplanar"
     {
         [MainColor] _MainColor ("Main Color", Color) = (1,1,1,1)
         [Normal] _BumpMap ("Normal Map", 2D) = "bump" {}
+        _ST ("Mapping", Vector) = (0,0,0,0)
         _Threshold ("Threshold", Float) = 0.5
         _Power ("Power", Int) = 1
         _Phase ("Phase", Float) = 20
@@ -27,14 +28,12 @@ Shader "Unlit/SonarTriplanar"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
                 float3 normal : NORMAL;
                 float4 tangent : TANGENT;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
                 half3 tspace0 : TEXCOORD1; // tangent.x, bitangent.x, normal.x
                 half3 tspace1 : TEXCOORD2; // tangent.y, bitangent.y, normal.y
@@ -48,7 +47,7 @@ Shader "Unlit/SonarTriplanar"
             float4 _MainColor;
 
             sampler2D _BumpMap;
-            float4 _BumpMap_ST;
+            float4 _ST;
 
             //Variables for color calculation
             float _Threshold;
@@ -66,7 +65,6 @@ Shader "Unlit/SonarTriplanar"
 
                 //Coordinate mappings
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _BumpMap);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 
                 //Normalized direction to camera
@@ -96,9 +94,9 @@ Shader "Unlit/SonarTriplanar"
                 //Normal triplanar for x, y, z sides
                 float3 blendNormal = saturate(pow(i.worldNormal * 1.4,4));
                 
-                half4 xn = tex2D(_BumpMap, i.worldPos.zy * i.uv);
-                half4 yn = tex2D(_BumpMap, i.worldPos.zx * i.uv);
-                half4 zn = tex2D(_BumpMap, i.worldPos.xy * i.uv);
+                half4 xn = tex2D(_BumpMap, i.worldPos.zy * _ST.xy + _ST.zw);
+                half4 yn = tex2D(_BumpMap, i.worldPos.zx * _ST.xy + _ST.zw);
+                half4 zn = tex2D(_BumpMap, i.worldPos.xy * _ST.xy + _ST.zw);
                 
                 half4 normal = zn;
                 normal = lerp(normal, xn, blendNormal.x);

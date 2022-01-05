@@ -58,8 +58,11 @@ public class Player : Character
 
                     }
                     if (Input.GetButtonDown("Fire3"))
-                        //RockBendingController.RaiseWall();
-                        TerraformingController.RaiseWall(transform.position + 2f * transform.forward, transform.forward);
+                    {
+                        var position = transform.position + 3f * transform.forward;
+                        RockBendingController.RaiseWall(position, TerraformingController.GetHeightAt(position));
+                        //TerraformingController.RaiseWall(position, transform.forward);
+                    }
                     return;
                 
                 case Mode.Terraform:

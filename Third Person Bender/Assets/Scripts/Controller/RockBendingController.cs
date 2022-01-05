@@ -31,9 +31,9 @@ public class RockBendingController : MonoBehaviour
             StartCoroutine(PushRockRoutine(aimVector));
     }
 
-    public void RaiseWall()
+    public void RaiseWall(Vector3 position, float startHeight)
     {
-        StartCoroutine(RaiseWallRoutine(WallRaiseTime));
+        StartCoroutine(RaiseWallRoutine(position, startHeight, WallRaiseTime));
     }
 
     IEnumerator DrawRockRoutine()
@@ -72,11 +72,11 @@ public class RockBendingController : MonoBehaviour
             rock.transform.localPosition = rockOffsetPosition;
     }
 
-    IEnumerator RaiseWallRoutine(float time)
+    IEnumerator RaiseWallRoutine(Vector3 position, float startHeight, float time)
     {
-        var position = transform.position + 2f * transform.forward;
-        position.y = -6.15f;
-        var moveVector = new Vector3(0f, 6.15f/time, 0f);
+        position.y = -6f + startHeight - 10f;
+        Debug.Log(startHeight);
+        var moveVector = new Vector3(0f, 6f/time, 0f);
         var wall = Instantiate(WallObject, position, transform.rotation * WallObject.transform.rotation);
         while (time > 0)
         {
@@ -84,7 +84,7 @@ public class RockBendingController : MonoBehaviour
             time -= Time.deltaTime;
             yield return null;
         }
-        position.y = 0f;
+        position.y = startHeight - 10f;
         wall.transform.position = position;
     }
 }
