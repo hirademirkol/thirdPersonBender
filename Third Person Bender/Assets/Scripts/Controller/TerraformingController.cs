@@ -86,6 +86,12 @@ public class TerraformingController : MonoBehaviour
             _terrainData.SetHeights(start.X, start.Y, heights);
     }
 
+    public float GetHeightAt(Vector3 position)
+    {
+        var coords = TransformCoordinate(position);
+        return _terrainData.GetHeight(coords.X, coords.Y);
+    }
+
     private coords TransformCoordinate(float x, float z)
     {
         int x_terrain = Mathf.RoundToInt((x - _terrainPosition.x)/_terrainScale.x);
