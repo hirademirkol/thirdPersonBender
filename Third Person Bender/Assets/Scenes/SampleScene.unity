@@ -458,7 +458,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 154101802}
-  m_LocalRotation: {x: 0.0016806759, y: -0.000000017207093, z: 2.891959e-11, w: 0.9999986}
+  m_LocalRotation: {x: 0.0016806757, y: -0.00000001720528, z: 2.8916543e-11, w: 0.9999986}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -921,9 +921,12 @@ MonoBehaviour:
   RockBendingController: {fileID: 623309346}
   SonarController: {fileID: 623309345}
   TerraformingController: {fileID: 623309348}
-  Camera: {fileID: 963194228}
+  Camera: {fileID: 963194227}
   FiringDistance: 25
   TurnSmoothTime: 0.1
+  GroundMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &623309348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,7 +940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Terrain: {fileID: 1393604225}
-  WallRaiseTime: 0.5
+  alterSpeed: 1
 --- !u!1 &702986426
 GameObject:
   m_ObjectHideFlags: 3
@@ -1404,7 +1407,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.0016806757, y: -0.000000017211295, z: 2.892322e-11, w: 0.9999986}
+  m_LocalRotation: {x: 0.0016806757, y: -0.000000017206716, z: 2.8914154e-11, w: 0.9999986}
   m_LocalPosition: {x: 1, y: 2.5, z: -25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2519,7 +2522,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2042559084}
-  m_LocalRotation: {x: 0.024976611, y: 0.000000017201012, z: -4.2975712e-10, w: 0.999688}
+  m_LocalRotation: {x: 0.02497659, y: -0.000000017201012, z: 4.2975679e-10, w: 0.999688}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

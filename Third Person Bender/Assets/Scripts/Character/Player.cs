@@ -6,11 +6,14 @@ public class Player : Character
 {
     public SonarController SonarController;
     public TerraformingController TerraformingController;
-    public Transform Camera;
+    public Camera Camera;
     public float FiringDistance = 25f;
     public float TurnSmoothTime = 0.1f;
+    public LayerMask GroundMask;
 
     private float _turnSmoothVelocity;
+    private RaycastHit hit;
+    private Ray ray;
 
     enum Mode {Fire, Terraform}
 
@@ -49,7 +52,7 @@ public class Player : Character
                     if (Input.GetButtonDown("Fire1"))
                     {
                         //MovementController.RotateWithAngle(Camera.eulerAngles.y);
-                        RockBendingController.PushRock(Quaternion.Euler(Camera.eulerAngles.x, -Mathf.Rad2Deg * Mathf.Atan2(1f, FiringDistance), 0f) * Vector3.forward);
+                        RockBendingController.PushRock(Quaternion.Euler(Camera.transform.eulerAngles.x, -Mathf.Rad2Deg * Mathf.Atan2(1f, FiringDistance), 0f) * Vector3.forward);
                     }
                     if (Input.GetButtonDown("Fire2"))
                     {
@@ -66,8 +69,13 @@ public class Player : Character
                     return;
                 
                 case Mode.Terraform:
-                    if (Input.GetButtonDown("Fire1"))
-                        TerraformingController.ColumnAtMiddle(20, 11);
+                ray = Camera.ScreenPointToRay(Input.mousePosition);
+                    if (Input.GetButton("Fire1"))
+                        if(Physics.Raycast(ray, out hit, 30f, GroundMask))
+                            TerraformingController.AlterTerrainHeight(hit.point, false);
+                    if (Input.GetButton("Fire2"))
+                        if(Physics.Raycast(ray, out hit, 30f, GroundMask))
+                            TerraformingController.AlterTerrainHeight(hit.point, true);
                     return;
                 
                 default:
@@ -85,7 +93,7 @@ public class Player : Character
             
             if(direction.magnitude >= 0.1f)
             {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.eulerAngles.y;
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + Camera.transform.eulerAngles.y;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity, TurnSmoothTime);
                 Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 MovementController.Move(moveDir, angle, Input.GetButton("Run"));

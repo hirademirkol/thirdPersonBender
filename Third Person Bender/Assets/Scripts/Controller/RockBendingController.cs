@@ -75,7 +75,6 @@ public class RockBendingController : MonoBehaviour
     IEnumerator RaiseWallRoutine(Vector3 position, float startHeight, float time)
     {
         position.y = -6f + startHeight - 10f;
-        Debug.Log(startHeight);
         var moveVector = new Vector3(0f, 6f/time, 0f);
         var wall = Instantiate(WallObject, position, transform.rotation * WallObject.transform.rotation);
         while (time > 0)

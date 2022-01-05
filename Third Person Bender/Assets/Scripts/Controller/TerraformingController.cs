@@ -5,7 +5,8 @@ using UnityEngine;
 public class TerraformingController : MonoBehaviour
 {
     public Terrain Terrain;
-
+    public float alterSpeed = 1f;
+    
     private TerrainData _terrainData;
     private Vector3 _terrainPosition;
     private Vector3 _terrainScale;
@@ -51,6 +52,17 @@ public class TerraformingController : MonoBehaviour
             }
         }
         _terrainData.SetHeights(start.X-brushLength/2, start.Y-brushLength/2, columnHeights);
+    }
+
+    public void AlterTerrainHeight(Vector3 position, bool up)
+    {
+        var coords = TransformCoordinate(position);
+        var heights = _terrainData.GetHeights(coords.X-1, coords.Y-1, 3, 3);
+        var direction = up ? 1f : -1f;
+        for(int x = 0; x < 2; x++)
+            for(int y = 0; y < 2; y++)
+                heights[x,y] += direction * alterSpeed * Time.deltaTime;
+        _terrainData.SetHeights(coords.X, coords.Y, heights);
     }
 
     public void PullOffRock(Vector3 position)
