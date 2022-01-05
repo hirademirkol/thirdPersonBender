@@ -41,7 +41,6 @@ Shader "Unlit/Sonar"
                 half3 tspace2 : TEXCOORD3; // tangent.z, bitangent.z, normal.z
                 float3 worldPos : TEXCOORD4;
                 float3 cameraDir : FLOAT4;
-                float3 normal : NORMAL;
                 float3 distanceVector : FLOAT3;
             };
 
@@ -82,7 +81,6 @@ Shader "Unlit/Sonar"
                 o.tspace0 = half3(wTangent.x, wBitangent.x, wNormal.x);
                 o.tspace1 = half3(wTangent.y, wBitangent.y, wNormal.y);
                 o.tspace2 = half3(wTangent.z, wBitangent.z, wNormal.z);
-                o.normal = wNormal;
 
                 //Vector from the wave origin
                 o.distanceVector = mul(unity_ObjectToWorld, v.vertex) - _Origin;
@@ -106,7 +104,7 @@ Shader "Unlit/Sonar"
                 color.rgb = pow(dot(worldNormal, i.cameraDir), _Power) > _Threshold;
 
                 //Distance calculated as horizontal+vertical distance
-                float dist = length(i.distanceVector.xz) + i.distanceVector.y;
+                float dist = length(i.distanceVector.xz) + abs(i.distanceVector.y);
                 
                 //Mask for waves only on sonarfront
                 float mask = abs(dist-_Distance)<0.5;

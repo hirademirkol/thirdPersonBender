@@ -8,7 +8,11 @@ public class SonarController : MonoBehaviour
     public Camera MainCamera;
     public Transform Origin;
     public Shader SonarShader;
-    public GameObject EnvironmentObject;
+    public Shader SonarTerrainShader;
+    //public GameObject EnvironmentObject;
+    public Shader StandardShader;
+    public Shader StandardTerrainShader;
+    public Material TerrainMaterial;
     public Material[] RockMaterials;
     public Material[] CharacterMaterials;
     public float SonarSpeed = 3f;
@@ -21,7 +25,7 @@ public class SonarController : MonoBehaviour
     void Start()
     {
         _blinded = false;
-        _renderers = EnvironmentObject.GetComponentsInChildren<MeshRenderer>();
+        //_renderers = EnvironmentObject.GetComponentsInChildren<MeshRenderer>();
         Shader.SetGlobalFloat("_Speed",SonarSpeed);
     }
 
@@ -29,8 +33,9 @@ public class SonarController : MonoBehaviour
     {
         if(_blinded)
         {
-            foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
-            foreach (Material mat in CharacterMaterials) { mat.shader = Shader.Find("Standard"); }
+            TerrainMaterial.shader = StandardTerrainShader;
+            foreach (Material mat in RockMaterials) { mat.shader = StandardShader; }
+            foreach (Material mat in CharacterMaterials) { mat.shader = StandardShader; }
         }
     }
 
@@ -46,16 +51,18 @@ public class SonarController : MonoBehaviour
     {
         if(_blinded)
         {
-            foreach (MeshRenderer renderer in _renderers) { renderer.material.shader = SonarShader; }
+            //foreach (MeshRenderer renderer in _renderers) { renderer.material.shader = SonarShader; }
+            TerrainMaterial.shader = SonarTerrainShader;
             foreach (Material mat in RockMaterials) { mat.shader = SonarShader; }
             foreach (Material mat in CharacterMaterials) { mat.shader = SonarShader; }
             MainCamera.clearFlags = CameraClearFlags.SolidColor;
         }
         else
         {
-            foreach (MeshRenderer renderer in _renderers){ renderer.material.shader = Shader.Find("Standard"); }
-            foreach (Material mat in RockMaterials) { mat.shader = Shader.Find("Standard"); }
-            foreach (Material mat in CharacterMaterials) { mat.shader = Shader.Find("Standard"); }
+            //foreach (MeshRenderer renderer in _renderers){ renderer.material.shader = Shader.Find("Standard"); }
+            TerrainMaterial.shader = StandardTerrainShader;
+            foreach (Material mat in RockMaterials) { mat.shader = StandardShader; }
+            foreach (Material mat in CharacterMaterials) { mat.shader = StandardShader; }
             MainCamera.clearFlags = CameraClearFlags.Skybox;
         }
         yield return null;
